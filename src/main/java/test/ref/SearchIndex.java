@@ -1,5 +1,7 @@
 package test.ref;
 
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
@@ -13,7 +15,11 @@ public class SearchIndex {
 
     public static void main(String[] args) {
         ConnectElasticsearch.connect(e -> {
-            GetIndexRequest indexRequest = new GetIndexRequest("user2");
+            GetIndexRequest indexRequest = new GetIndexRequest("user");
+            GetRequest request = new GetRequest("user");
+            request.id("1006");
+            GetResponse documentFields = e.get(request, RequestOptions.DEFAULT);
+            System.out.println("id\t" + documentFields.getSourceAsString());
             GetIndexResponse getIndexResponse = e.indices().get(indexRequest, RequestOptions.DEFAULT);
             System.out.println(getIndexResponse);
         });

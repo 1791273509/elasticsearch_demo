@@ -1,9 +1,11 @@
 package test.ref.butch;
 
+import java.sql.ResultSet;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.Request;
 import org.elasticsearch.client.RequestOptions;
 import test.ref.ConnectElasticsearch;
 
@@ -26,6 +28,14 @@ public class BatchDeleteDoc {
             //打印结果信息
             System.out.println("took:" + responses.getTook());
             System.out.println("items:" + responses.getItems());
+
+
+            BulkRequest bulkRequest = new BulkRequest();
+            DeleteRequest request1 = new DeleteRequest("user").id("6-dR9HgBrQvXZVqYEXMq");
+            DeleteRequest request2 = new DeleteRequest("user").id("6OdN9HgBrQvXZVqYI3P9");
+            bulkRequest.add(request1);
+            bulkRequest.add(request2);
+            client.bulk(bulkRequest,RequestOptions.DEFAULT);
         });
     }
 }
